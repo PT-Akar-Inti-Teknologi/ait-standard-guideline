@@ -9,10 +9,13 @@ import org.ait.project.guideline.example.modules.post.service.delegate.JsonPlace
 import org.ait.project.guideline.example.modules.post.service.internal.JsonPlaceHolderPostService;
 import org.ait.project.guideline.example.modules.post.transform.JsonPlaceHolderPostTransform;
 import org.ait.project.guideline.example.shared.constant.enums.ResponseEnum;
+import org.ait.project.guideline.example.shared.dto.ResponseCollection;
 import org.ait.project.guideline.example.shared.dto.ResponseTemplate;
 import org.ait.project.guideline.example.shared.openfeign.jsonplaceholder.JsonPlaceHolderClient;
 import org.ait.project.guideline.example.shared.openfeign.jsonplaceholder.response.PostResponse;
 import org.ait.project.guideline.example.shared.utils.ResponseHelper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -28,20 +31,29 @@ public class JsonPlaceHolderPostServiceImpl implements JsonPlaceHolderPostServic
 
   private final JsonPlaceHolderPostTransform postTransform;
 
-  public ResponseEntity<ResponseTemplate<List<JsonPlaceHolderPostResponse>>> getAllJsonPlaceHolderPost() {
+  public ResponseEntity<ResponseTemplate<ResponseCollection<JsonPlaceHolderPostResponse>>> getAllJsonPlaceHolderPost() {
 
     List<JsonPlaceHolderPost> jsonPlaceHolderPostList = postDelegate.getAllPost();
 
     if (jsonPlaceHolderPostList.isEmpty()) {
       List<PostResponse> postResponseList = client.getListPost();
-      if(!postResponseList.isEmpty()){
+      if (!postResponseList.isEmpty()) {
         jsonPlaceHolderPostList =
             postDelegate.saveAll(postTransform.createJPHPostList(postResponseList));
       }
     }
 
-    return responseHelper.createResponse(ResponseEnum.SUCCESS,
+    return responseHelper.createResponseCollection(ResponseEnum.SUCCESS, null,
         postTransform.createJPHPostResponseList(jsonPlaceHolderPostList));
+  }
+
+  @Override
+  public ResponseEntity<ResponseTemplate<ResponseCollection<JsonPlaceHolderPostResponse>>> getAllJsonPlaceHolderPostPage(
+      Pageable pageable) {
+    Page<JsonPlaceHolderPost> jsonPlaceHolderPostPage = postDelegate.getAllPostPage(pageable);
+
+    return responseHelper.createResponseCollection(ResponseEnum.SUCCESS, jsonPlaceHolderPostPage,
+        postTransform.createJPHPostResponseList(jsonPlaceHolderPostPage.getContent()));
   }
 
   public ResponseEntity<ResponseTemplate<JsonPlaceHolderPostResponse>> getJsonPlaceHolderPostById(
@@ -51,8 +63,9 @@ public class JsonPlaceHolderPostServiceImpl implements JsonPlaceHolderPostServic
   }
 
   public ResponseEntity<ResponseTemplate<JsonPlaceHolderPostResponse>> addPost(PostReq postReq) {
-      client.createPost(postTransform.createJPHPostRequest(postReq));
-      JsonPlaceHolderPost jsonPlaceHolderPost = postDelegate.save(postTransform.createEntityPost(postReq));
+    client.createPost(postTransform.createJPHPostRequest(postReq));
+    JsonPlaceHolderPost jsonPlaceHolderPost =
+        postDelegate.save(postTransform.createEntityPost(postReq));
     return responseHelper.createResponse(ResponseEnum.SUCCESS,
         postTransform.createJPHPostResponse(jsonPlaceHolderPost));
   }

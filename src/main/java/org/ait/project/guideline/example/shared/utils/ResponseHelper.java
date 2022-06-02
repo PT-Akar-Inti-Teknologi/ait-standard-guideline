@@ -24,6 +24,13 @@ public class ResponseHelper {
         );
   }
 
+  public <T> ResponseEntity<ResponseTemplate<ResponseCollection<T>>> createResponseCollection(ResponseEnum responseEnum,Page page, List<T> body) {
+    return ResponseEntity.status(responseEnum.getHttpStatus())
+        .body(
+            createResponseTemplateCollection(responseEnum,page, body)
+        );
+  }
+
   public <T> ResponseTemplate<T> createResponseTemplate(ResponseEnum responseEnum, T body) {
     return ResponseTemplate.<T>builder()
         .responseSchema(responseMessageHelper.getResponseSchema(responseEnum))
@@ -31,16 +38,16 @@ public class ResponseHelper {
         .build();
   }
 
-  public <T> ResponseTemplate<ResponseCollection<T>> createResponseCollection(
+  public <T> ResponseTemplate<ResponseCollection<T>> createResponseTemplateCollection(
       ResponseEnum responseEnum, Page page,
       List<T> contents) {
     return ResponseTemplate.<ResponseCollection<T>>builder()
         .responseSchema(responseMessageHelper.getResponseSchema(responseEnum))
-        .responseOutput(createResponseCollection(page, contents))
+        .responseOutput(createResponseTemplateCollection(page, contents))
         .build();
   }
 
-  private <T> ResponseCollection<T> createResponseCollection(Page page, List<T> contents) {
+  private <T> ResponseCollection<T> createResponseTemplateCollection(Page page, List<T> contents) {
     return new ResponseCollection(
         Optional.ofNullable(page).map(
             pageableData -> new PaginationConfig(page.getNumber(),

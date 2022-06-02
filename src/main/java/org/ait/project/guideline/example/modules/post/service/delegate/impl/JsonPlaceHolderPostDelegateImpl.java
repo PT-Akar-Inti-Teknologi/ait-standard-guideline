@@ -7,6 +7,8 @@ import org.ait.project.guideline.example.modules.post.exception.JPHNotFoundExcep
 import org.ait.project.guideline.example.modules.post.model.entity.JsonPlaceHolderPost;
 import org.ait.project.guideline.example.modules.post.model.repository.JsonPlaceHolderPostRepository;
 import org.ait.project.guideline.example.modules.post.service.delegate.JsonPlaceHolderPostDelegate;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,6 +20,11 @@ public class JsonPlaceHolderPostDelegateImpl implements JsonPlaceHolderPostDeleg
   @Override
   public List<JsonPlaceHolderPost> getAllPost() {
     return repository.findAll();
+  }
+
+  @Override
+  public Page<JsonPlaceHolderPost> getAllPostPage(Pageable pageable) {
+    return repository.findAll(pageable);
   }
 
   @Override

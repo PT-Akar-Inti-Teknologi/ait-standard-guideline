@@ -1,6 +1,8 @@
 # `AIT SPRING BOOT GUIDELINE EXAMPLE`
 ## `By PT Akarinti Teknologi`
 
+link guideline [Link](https://docs.google.com/presentation/d/1i8YEQ6zQlcZDB7472bNmymiwLluMaMCMVzoaj_Awk6U/edit?usp=sharing)
+
 ## `Specification:`
 
 Standard | Recommended 

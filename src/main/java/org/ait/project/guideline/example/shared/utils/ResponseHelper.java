@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.ait.project.guideline.example.shared.constant.enums.ResponseEnum;
 import org.ait.project.guideline.example.shared.dto.PaginationConfig;
 import org.ait.project.guideline.example.shared.dto.ResponseCollection;
+import org.ait.project.guideline.example.shared.dto.ResponseDetail;
 import org.ait.project.guideline.example.shared.dto.ResponseTemplate;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -17,25 +18,45 @@ public class ResponseHelper {
 
   private final ResponseMessageHelper responseMessageHelper;
 
-  public <T> ResponseEntity<ResponseTemplate<T>> createResponse(ResponseEnum responseEnum, T body) {
+  public <T> ResponseEntity<ResponseTemplate<ResponseDetail<T>>> createResponseDetail(
+      ResponseEnum responseEnum, T body) {
     return ResponseEntity.status(responseEnum.getHttpStatus())
         .body(
-            createResponseTemplate(responseEnum, body)
+            createResponseDetailTemplate(responseEnum, body)
         );
   }
 
-  public <T> ResponseEntity<ResponseTemplate<ResponseCollection<T>>> createResponseCollection(ResponseEnum responseEnum,Page page, List<T> body) {
+  public <T> ResponseTemplate<ResponseDetail<T>> createResponseDetailTemplate(
+      ResponseEnum responseEnum, T body) {
+    return ResponseTemplate.<ResponseDetail<T>>builder()
+        .responseSchema(responseMessageHelper.getResponseSchema(responseEnum))
+        .responseOutput(new ResponseDetail<>(body))
+        .build();
+  }
+
+  public <T> ResponseEntity<ResponseTemplate<T>> createResponseError(
+      ResponseEnum responseEnum, T body) {
     return ResponseEntity.status(responseEnum.getHttpStatus())
         .body(
-            createResponseTemplateCollection(responseEnum,page, body)
+            createResponseErrorTemplate(responseEnum, body)
         );
   }
 
-  public <T> ResponseTemplate<T> createResponseTemplate(ResponseEnum responseEnum, T body) {
+  public <T> ResponseTemplate<T> createResponseErrorTemplate(
+      ResponseEnum responseEnum, T body) {
     return ResponseTemplate.<T>builder()
         .responseSchema(responseMessageHelper.getResponseSchema(responseEnum))
         .responseOutput(body)
         .build();
+  }
+
+  public <T> ResponseEntity<ResponseTemplate<ResponseCollection<T>>> createResponseCollection(
+      ResponseEnum responseEnum, Page page,
+      List<T> contents) {
+    return ResponseEntity.status(responseEnum.getHttpStatus())
+        .body(
+            createResponseTemplateCollection(responseEnum, page,contents)
+        );
   }
 
   public <T> ResponseTemplate<ResponseCollection<T>> createResponseTemplateCollection(

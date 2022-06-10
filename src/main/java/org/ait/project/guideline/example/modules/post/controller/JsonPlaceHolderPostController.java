@@ -6,6 +6,7 @@ import org.ait.project.guideline.example.modules.post.dto.request.PostReq;
 import org.ait.project.guideline.example.modules.post.dto.response.JsonPlaceHolderPostResponse;
 import org.ait.project.guideline.example.modules.post.service.internal.JsonPlaceHolderPostService;
 import org.ait.project.guideline.example.shared.dto.ResponseCollection;
+import org.ait.project.guideline.example.shared.dto.ResponseDetail;
 import org.ait.project.guideline.example.shared.dto.ResponseTemplate;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -36,14 +37,14 @@ public class JsonPlaceHolderPostController implements JsonPlaceHolderPostService
 
   @Override
   @GetMapping("/{id}")
-  public ResponseEntity<ResponseTemplate<JsonPlaceHolderPostResponse>> getJsonPlaceHolderPostById(
+  public ResponseEntity<ResponseTemplate<ResponseDetail<JsonPlaceHolderPostResponse>>> getJsonPlaceHolderPostById(
       @PathVariable Integer id) {
     return postService.getJsonPlaceHolderPostById(id);
   }
 
   @Override
   @PostMapping
-  public ResponseEntity<ResponseTemplate<JsonPlaceHolderPostResponse>> addPost(
+  public ResponseEntity<ResponseTemplate<ResponseDetail<JsonPlaceHolderPostResponse>>> addPost(
       @Valid
       @RequestBody
           PostReq postReq) {

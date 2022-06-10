@@ -1,13 +1,14 @@
 package org.ait.project.guideline.example.config.exception;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.ait.project.guideline.example.shared.constant.enums.ResponseEnum;
+import org.ait.project.guideline.example.shared.dto.ErrorDetail;
+import org.ait.project.guideline.example.shared.dto.ResponseError;
 import org.ait.project.guideline.example.shared.dto.ResponseTemplate;
 import org.ait.project.guideline.example.shared.utils.ResponseHelper;
 import org.springframework.http.HttpHeaders;
@@ -28,7 +29,7 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(ModuleException.class)
   public <T> ResponseEntity<ResponseTemplate<T>> handleException(ModuleException exception) {
-    return responseHelper.createResponse(exception.getResponseEnum(), null);
+    return responseHelper.createResponseError(exception.getResponseEnum(), null);
   }
 
   @ExceptionHandler(Exception.class)
@@ -37,20 +38,26 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
                                                                  HttpServletResponse response) {
     Arrays.stream(ex.getStackTrace()).limit(5).forEach(logger::error);
     logger.error(ex.getMessage());
-    return responseHelper.createResponse(ResponseEnum.INTERNAL_SERVER_ERROR, null);
+    return responseHelper.createResponseError(ResponseEnum.INTERNAL_SERVER_ERROR, null);
   }
 
   @Override
-  protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-                                                                HttpHeaders headers,
-                                                                HttpStatus status,
-                                                                WebRequest request) {
-    Map<String, Object> returnError = new HashMap<>();
+  protected ResponseEntity<Object> handleMethodArgumentNotValid(
+      MethodArgumentNotValidException ex,
+      HttpHeaders headers,
+      HttpStatus status,
+      WebRequest request) {
+    ResponseError responseError = new ResponseError(new ArrayList<>());
 
     ex.getFieldErrors().forEach(
-        fieldError -> returnError.put(fieldError.getField(), fieldError.getDefaultMessage()));
+        fieldError ->
+            responseError.getErrorDetailList()
+                .add(new ErrorDetail(fieldError.getField(), fieldError.getDefaultMessage()))
+    );
 
     return ResponseEntity
-        .ok(responseHelper.createResponseTemplate(ResponseEnum.INVALID_PARAM, returnError));
+        .badRequest()
+        .body(
+            responseHelper.createResponseErrorTemplate(ResponseEnum.INVALID_PARAM, responseError));
   }
 }

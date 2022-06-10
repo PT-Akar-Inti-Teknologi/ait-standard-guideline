@@ -10,6 +10,7 @@ import org.ait.project.guideline.example.modules.post.service.internal.JsonPlace
 import org.ait.project.guideline.example.modules.post.transform.JsonPlaceHolderPostTransform;
 import org.ait.project.guideline.example.shared.constant.enums.ResponseEnum;
 import org.ait.project.guideline.example.shared.dto.ResponseCollection;
+import org.ait.project.guideline.example.shared.dto.ResponseDetail;
 import org.ait.project.guideline.example.shared.dto.ResponseTemplate;
 import org.ait.project.guideline.example.shared.openfeign.jsonplaceholder.JsonPlaceHolderClient;
 import org.ait.project.guideline.example.shared.openfeign.jsonplaceholder.response.PostResponse;
@@ -56,17 +57,17 @@ public class JsonPlaceHolderPostServiceImpl implements JsonPlaceHolderPostServic
         postTransform.createJPHPostResponseList(jsonPlaceHolderPostPage.getContent()));
   }
 
-  public ResponseEntity<ResponseTemplate<JsonPlaceHolderPostResponse>> getJsonPlaceHolderPostById(
+  public ResponseEntity<ResponseTemplate<ResponseDetail<JsonPlaceHolderPostResponse>>> getJsonPlaceHolderPostById(
       Integer id) {
-    return responseHelper.createResponse(ResponseEnum.SUCCESS,
+    return responseHelper.createResponseDetail(ResponseEnum.SUCCESS,
         postTransform.createJPHPostResponse(postDelegate.getPostById(id)));
   }
 
-  public ResponseEntity<ResponseTemplate<JsonPlaceHolderPostResponse>> addPost(PostReq postReq) {
+  public ResponseEntity<ResponseTemplate<ResponseDetail<JsonPlaceHolderPostResponse>>> addPost(PostReq postReq) {
     client.createPost(postTransform.createJPHPostRequest(postReq));
     JsonPlaceHolderPost jsonPlaceHolderPost =
         postDelegate.save(postTransform.createEntityPost(postReq));
-    return responseHelper.createResponse(ResponseEnum.SUCCESS,
+    return responseHelper.createResponseDetail(ResponseEnum.SUCCESS,
         postTransform.createJPHPostResponse(jsonPlaceHolderPost));
   }
 }

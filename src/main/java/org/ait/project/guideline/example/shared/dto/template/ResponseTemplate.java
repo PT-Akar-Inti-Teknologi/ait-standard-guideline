@@ -1,4 +1,4 @@
-package org.ait.project.guideline.example.shared.dto;
+package org.ait.project.guideline.example.shared.dto.template;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

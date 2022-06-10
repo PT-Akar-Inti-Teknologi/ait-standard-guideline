@@ -1,4 +1,4 @@
-package org.ait.project.guideline.example.shared.dto;
+package org.ait.project.guideline.example.shared.dto.template;
 
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;

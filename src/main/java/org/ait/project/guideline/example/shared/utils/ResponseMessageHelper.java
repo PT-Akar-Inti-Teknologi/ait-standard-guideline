@@ -3,7 +3,7 @@ package org.ait.project.guideline.example.shared.utils;
 import java.util.Locale;
 import lombok.RequiredArgsConstructor;
 import org.ait.project.guideline.example.shared.constant.enums.ResponseEnum;
-import org.ait.project.guideline.example.shared.dto.ResponseSchema;
+import org.ait.project.guideline.example.shared.dto.template.ResponseSchema;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 

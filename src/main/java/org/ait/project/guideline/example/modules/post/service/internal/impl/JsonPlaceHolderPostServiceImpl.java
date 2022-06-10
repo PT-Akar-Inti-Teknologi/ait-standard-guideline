@@ -9,10 +9,9 @@ import org.ait.project.guideline.example.modules.post.service.delegate.JsonPlace
 import org.ait.project.guideline.example.modules.post.service.internal.JsonPlaceHolderPostService;
 import org.ait.project.guideline.example.modules.post.transform.JsonPlaceHolderPostTransform;
 import org.ait.project.guideline.example.shared.constant.enums.ResponseEnum;
-import org.ait.project.guideline.example.shared.dto.ResponseCollection;
-import org.ait.project.guideline.example.shared.dto.ResponseDetail;
-import org.ait.project.guideline.example.shared.dto.ResponseList;
-import org.ait.project.guideline.example.shared.dto.ResponseTemplate;
+import org.ait.project.guideline.example.shared.dto.template.ResponseDetail;
+import org.ait.project.guideline.example.shared.dto.template.ResponseList;
+import org.ait.project.guideline.example.shared.dto.template.ResponseTemplate;
 import org.ait.project.guideline.example.shared.openfeign.jsonplaceholder.JsonPlaceHolderClient;
 import org.ait.project.guideline.example.shared.openfeign.jsonplaceholder.response.PostResponse;
 import org.ait.project.guideline.example.shared.utils.ResponseHelper;

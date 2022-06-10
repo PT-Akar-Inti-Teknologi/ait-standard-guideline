@@ -7,6 +7,7 @@ import org.ait.project.guideline.example.modules.post.dto.response.JsonPlaceHold
 import org.ait.project.guideline.example.modules.post.service.internal.JsonPlaceHolderPostService;
 import org.ait.project.guideline.example.shared.dto.ResponseCollection;
 import org.ait.project.guideline.example.shared.dto.ResponseDetail;
+import org.ait.project.guideline.example.shared.dto.ResponseList;
 import org.ait.project.guideline.example.shared.dto.ResponseTemplate;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -24,13 +25,13 @@ public class JsonPlaceHolderPostController implements JsonPlaceHolderPostService
 
   @Override
   @GetMapping("/post")
-  public ResponseEntity<ResponseTemplate<ResponseCollection<JsonPlaceHolderPostResponse>>> getAllJsonPlaceHolderPost() {
+  public ResponseEntity<ResponseTemplate<ResponseList<JsonPlaceHolderPostResponse>>> getAllJsonPlaceHolderPost() {
     return postService.getAllJsonPlaceHolderPost();
   }
 
   @Override
   @GetMapping("/post-page")
-  public ResponseEntity<ResponseTemplate<ResponseCollection<JsonPlaceHolderPostResponse>>> getAllJsonPlaceHolderPostPage(
+  public ResponseEntity<ResponseTemplate<ResponseList<JsonPlaceHolderPostResponse>>> getAllJsonPlaceHolderPostPage(
       Pageable pageable) {
     return postService.getAllJsonPlaceHolderPostPage(pageable);
   }

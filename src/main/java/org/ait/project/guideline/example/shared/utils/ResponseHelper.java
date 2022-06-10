@@ -7,6 +7,7 @@ import org.ait.project.guideline.example.shared.constant.enums.ResponseEnum;
 import org.ait.project.guideline.example.shared.dto.PaginationConfig;
 import org.ait.project.guideline.example.shared.dto.ResponseCollection;
 import org.ait.project.guideline.example.shared.dto.ResponseDetail;
+import org.ait.project.guideline.example.shared.dto.ResponseList;
 import org.ait.project.guideline.example.shared.dto.ResponseTemplate;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -50,7 +51,7 @@ public class ResponseHelper {
         .build();
   }
 
-  public <T> ResponseEntity<ResponseTemplate<ResponseCollection<T>>> createResponseCollection(
+  public <T> ResponseEntity<ResponseTemplate<ResponseList<T>>> createResponseCollection(
       ResponseEnum responseEnum, Page page,
       List<T> contents) {
     return ResponseEntity.status(responseEnum.getHttpStatus())
@@ -59,12 +60,12 @@ public class ResponseHelper {
         );
   }
 
-  public <T> ResponseTemplate<ResponseCollection<T>> createResponseTemplateCollection(
+  public <T> ResponseTemplate<ResponseList<T>> createResponseTemplateCollection(
       ResponseEnum responseEnum, Page page,
       List<T> contents) {
-    return ResponseTemplate.<ResponseCollection<T>>builder()
+    return ResponseTemplate.<ResponseList<T>>builder()
         .responseSchema(responseMessageHelper.getResponseSchema(responseEnum))
-        .responseOutput(createResponseTemplateCollection(page, contents))
+        .responseOutput(new ResponseList<>(createResponseTemplateCollection(page, contents)))
         .build();
   }
 

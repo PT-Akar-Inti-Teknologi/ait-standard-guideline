@@ -11,6 +11,7 @@ import org.ait.project.guideline.example.modules.post.transform.JsonPlaceHolderP
 import org.ait.project.guideline.example.shared.constant.enums.ResponseEnum;
 import org.ait.project.guideline.example.shared.dto.ResponseCollection;
 import org.ait.project.guideline.example.shared.dto.ResponseDetail;
+import org.ait.project.guideline.example.shared.dto.ResponseList;
 import org.ait.project.guideline.example.shared.dto.ResponseTemplate;
 import org.ait.project.guideline.example.shared.openfeign.jsonplaceholder.JsonPlaceHolderClient;
 import org.ait.project.guideline.example.shared.openfeign.jsonplaceholder.response.PostResponse;
@@ -32,7 +33,7 @@ public class JsonPlaceHolderPostServiceImpl implements JsonPlaceHolderPostServic
 
   private final JsonPlaceHolderPostTransform postTransform;
 
-  public ResponseEntity<ResponseTemplate<ResponseCollection<JsonPlaceHolderPostResponse>>> getAllJsonPlaceHolderPost() {
+  public ResponseEntity<ResponseTemplate<ResponseList<JsonPlaceHolderPostResponse>>> getAllJsonPlaceHolderPost() {
 
     List<JsonPlaceHolderPost> jsonPlaceHolderPostList = postDelegate.getAllPost();
 
@@ -49,7 +50,7 @@ public class JsonPlaceHolderPostServiceImpl implements JsonPlaceHolderPostServic
   }
 
   @Override
-  public ResponseEntity<ResponseTemplate<ResponseCollection<JsonPlaceHolderPostResponse>>> getAllJsonPlaceHolderPostPage(
+  public ResponseEntity<ResponseTemplate<ResponseList<JsonPlaceHolderPostResponse>>> getAllJsonPlaceHolderPostPage(
       Pageable pageable) {
     Page<JsonPlaceHolderPost> jsonPlaceHolderPostPage = postDelegate.getAllPostPage(pageable);
 

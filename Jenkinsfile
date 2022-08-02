@@ -8,7 +8,7 @@ pipeline {
             script {
               result = sh (script: "git log -1 | grep 'feat:'", returnStatus: true)
               if (result != 0) {
-                echo "performing build..."
+                echo "performing build.."
               } else {
                 throw new Exception("commit not standard")
               }

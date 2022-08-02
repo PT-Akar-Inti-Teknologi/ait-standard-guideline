@@ -5,9 +5,15 @@ pipeline {
 
       stage('Check Commit') {
          steps {
-            script {
-              throw new Exception("commit not standard")
-            }
+          result = sh (script: "git log -1 | grep '\\[build\\]'", returnStatus: true)
+           if (result != 0) {
+             echo "performing build..."
+           } else {
+             script {
+               throw new Exception("commit not standard")
+             }
+           }
+
          }
          post {
              success {

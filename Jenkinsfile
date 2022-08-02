@@ -9,6 +9,18 @@ pipeline {
               throw new Exception("commit not standard")
             }
          }
+         post {
+             success {
+                 script {
+                     echo "success"
+                 }
+             }
+             failure {
+                 script {
+                     echo "failed, not meet commit standard"
+                 }
+             }
+         }
       }
 
    }

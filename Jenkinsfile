@@ -6,11 +6,11 @@ pipeline {
       stage('Check Commit') {
          steps {
             script {
-              result = sh (script: "git log -1 | grep 'feat:'", returnStatus: true)
+              result = sh (script: "git log -1 | grep -E '[(feat|build|chore|fix|docs|refactor|perf|style|test):]'", returnStatus: true)
               if (result != 0) {
-                echo "performing build.."
-              } else {
                 throw new Exception("commit not standard")
+              } else {
+                echo "performing build.."
               }
             }
 

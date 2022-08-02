@@ -13,6 +13,12 @@ pipeline {
        }
      }
 
+     stage('Build') {
+       steps {
+         sh 'mvn -Dmaven.test.failure.ignore=true install'
+       }
+     }
+
       stage('Sonarqube analysis') {
         environment {
           scannerHome = tool 'sonarqube-scanner'

@@ -2,10 +2,14 @@ pipeline {
    agent any
 
    stages {
-     stage('Check Commit') {
-       script {
-         throw new Exception("commit not standard")
-       }
-     }
+
+      stage('Check Commit') {
+         steps {
+            script {
+              throw new Exception("commit not standard")
+            }
+         }
+      }
+
    }
 }

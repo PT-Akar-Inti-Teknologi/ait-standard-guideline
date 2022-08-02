@@ -6,7 +6,7 @@ pipeline {
       stage('Check Commit') {
          steps {
             script {
-              result = sh (script: "git log -1 | grep -E '(feat|build|chore|fix|docs|refactor|perf|style|test)'", returnStatus: true)
+              result = sh (script: "git log -1 | grep -E '^(feat|build|chore|fix|docs|refactor|perf|style|test):'", returnStatus: true)
               if (result != 0) {
                 throw new Exception("error")
               } else {

@@ -25,6 +25,7 @@ public class ResponseHelper {
   private final ResponseTemplateTransform responseTransform;
 
   /**
+   * a utility function that is used to generate detailed responses based on the AIT Standard
    * @param responseEnum Enum Response
    * @param body Body Return
    * @param <T> Generic Type, for class body return

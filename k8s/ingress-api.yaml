@@ -24,8 +24,8 @@ spec:
                 name: java-standard-svc
                 port:
                   number: 8080
-              path: /api/?(.*)
-              pathType: Prefix
+                path: /api/?(.*)
+                pathType: Prefix
 status:
   loadBalancer:
     ingress:

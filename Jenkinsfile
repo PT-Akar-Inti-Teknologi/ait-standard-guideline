@@ -49,7 +49,7 @@ pipeline {
                   sh 'mkdir -p $HOME/.kube'
                   sh 'cat ${CONFIG} > ~/.kube/config'
                   sh 'skaffold run -n ait-standard'
-                  sh 'cd manifest/'
+                  sh 'cd k8s/'
                   sh 'kubectl apply -f depl.yaml -n ait-standard'
                   sh 'kubectl apply -f svc.yaml -n ait-standard'
                   sh 'kubectl apply -f ingress-api.yaml -n ait-standard'

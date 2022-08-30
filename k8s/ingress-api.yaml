@@ -19,11 +19,13 @@ spec:
     - host: ait-java-standard.akarinti.tech
       http:
         paths:
-          - path: /api/?(.*)
-            pathType: Prefix
-            backend:
-              serviceName: java-standard-svc
-              servicePort: 8080
+          - backend:
+              service:
+                name: java-standard-svc
+                port:
+                  number: 8080
+              path: /api/?(.*)
+              pathType: Prefix
 status:
   loadBalancer:
     ingress:

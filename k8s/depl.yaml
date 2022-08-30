@@ -20,7 +20,7 @@ spec:
         - name: registry-secret
       containers:
       - name: java-standard
-        image: ait-cr.akarinti.tech/java-standard
+        image: ait-cr.akarinti.tech/java-standard:1.0
         ports:
           - name: java-standard
             protocol: TCP

@@ -42,7 +42,6 @@ pipeline {
       stage('Build Image - Push - Deploy') {
          steps {
             script {
-               env.PIPELINE_NAMESPACE = "java-standard"
                withCredentials([file(credentialsId: 'ait-k8s_kubeconfig', variable: 'CONFIG'),
                              usernamePassword(credentialsId: 'ait-k8s_docker-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
                   sh 'docker login ait-cr.akarinti.tech --username=${USER} --password=${PASS}'

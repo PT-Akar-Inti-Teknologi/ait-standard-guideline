@@ -38,6 +38,24 @@ pipeline {
           }
         }
       }
+
+      stage('Build Image - Push - Deploy') {
+         steps {
+            script {
+               env.PIPELINE_NAMESPACE = "java-standard"
+               withCredentials([file(credentialsId: 'ait-k8s_kubeconfig', variable: 'CONFIG'),
+                             usernamePassword(credentialsId: 'ait-k8s_docker-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                  sh 'docker login ait-cr.akarinti.tech --username=${USER} --password=${PASS}'
+                  sh 'mkdir -p $HOME/.kube'
+                  sh 'cat ${CONFIG} > ~/.kube/config'
+                  sh 'skaffold run -n dlog-dev'
+                  sh 'cd manifest && kubectl apply -f depl.yaml -n ait-standard && kubectl apply -f svc.yaml -n ait-standard && kubectl apply -f ingress-api.yaml -n ait-standard'
+                  sh 'kubectl rollout status -f depl.yaml -n ait-standard'
+                  sh 'kubectl get all,ing  -n ait-standard'
+               }
+            }
+         }
+      }
    }
 
    post {

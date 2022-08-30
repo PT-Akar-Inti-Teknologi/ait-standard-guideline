@@ -32,6 +32,7 @@ public class JsonPlaceHolderPostServiceImpl implements JsonPlaceHolderPostServic
 
   private final JsonPlaceHolderPostTransform postTransform;
 
+
   public ResponseEntity<ResponseTemplate<ResponseList<JsonPlaceHolderPostResponse>>> getAllJsonPlaceHolderPost() {
 
     List<JsonPlaceHolderPost> jsonPlaceHolderPostList = postDelegate.getAllPost();

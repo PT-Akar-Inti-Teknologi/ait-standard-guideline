@@ -24,6 +24,12 @@ public class ResponseHelper {
 
   private final ResponseTemplateTransform responseTransform;
 
+  /**
+   * @param responseEnum Enum Response
+   * @param body Body Return
+   * @param <T> Generic Type, for class body return
+   * @return ResponseEntity contain Template Response based on AIT Standard
+   */
   public <T> ResponseEntity<ResponseTemplate<ResponseDetail<T>>> createResponseDetail(
       ResponseEnum responseEnum, T body) {
     return ResponseEntity.status(responseEnum.getHttpStatus())

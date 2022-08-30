@@ -48,7 +48,7 @@ pipeline {
                   sh 'docker login ait-cr.akarinti.tech --username=${USER} --password=${PASS}'
                   sh 'mkdir -p $HOME/.kube'
                   sh 'cat ${CONFIG} > ~/.kube/config'
-                  sh 'skaffold run -n dlog-dev'
+                  sh 'skaffold run -n ait-standard'
                   sh 'cd manifest && kubectl apply -f depl.yaml -n ait-standard && kubectl apply -f svc.yaml -n ait-standard && kubectl apply -f ingress-api.yaml -n ait-standard'
                   sh 'kubectl rollout status -f depl.yaml -n ait-standard'
                   sh 'kubectl get all,ing  -n ait-standard'

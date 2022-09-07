@@ -65,18 +65,27 @@ pipeline {
       stage('Build Image - Push - Deploy') {
          steps {
             script {
-               sh 'docker login ait-cr.akarinti.tech --username=${USER} --password=${PASS}'
-               sh 'mkdir -p $HOME/.kube'
-               sh 'cat ${CONFIG} > ~/.kube/config'
-               sh 'skaffold run -n ${NAMESPACE}'
-               sh 'kubectl apply -f k8s/depl.yaml -n ${NAMESPACE}'
-               sh 'kubectl apply -f k8s/svc.yaml -n ${NAMESPACE}'
-               sh 'kubectl apply -f k8s/ingress-api.yaml -n ${NAMESPACE}'
-               sh 'kubectl rollout status -f k8s/depl.yaml -n ${NAMESPACE}'
-               sh 'kubectl get all,ing  -n ${NAMESPACE}'
+              withCredentials([file(credentialsId: 'ait-k8s_kubeconfig', variable: 'CONFIG')]) {
+                 sh 'docker login ait-cr.akarinti.tech --username=${USER} --password=${PASS}'
+                 sh 'mkdir -p $HOME/.kube'
+                 sh 'cat ${CONFIG} > ~/.kube/config'
+                 sh 'skaffold run -n ${NAMESPACE}'
+              }
             }
          }
       }
+
+      stage('Apply k8s') {
+          steps {
+              script {
+                 sh 'kubectl apply -f k8s/depl.yaml -n ${NAMESPACE}'
+                 sh 'kubectl apply -f k8s/svc.yaml -n ${NAMESPACE}'
+                 sh 'kubectl apply -f k8s/ingress-api.yaml -n ${NAMESPACE}'
+                 sh 'kubectl rollout status -f k8s/depl.yaml -n ${NAMESPACE}'
+                 sh 'kubectl get all,ing  -n ${NAMESPACE}'
+              }
+          }
+       }
    }
 
    post {

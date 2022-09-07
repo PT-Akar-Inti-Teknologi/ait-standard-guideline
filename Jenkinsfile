@@ -57,7 +57,7 @@ pipeline {
      stage('Check New Namespace') {
         steps {
             script {
-              sh 'kubectl create ns ${NAMESPACE}'
+              sh 'kubectl create namespace ${NAMESPACE} --dry-run=client -o yaml | kubectl apply -f -'
             }
         }
      }

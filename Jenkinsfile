@@ -43,16 +43,16 @@ pipeline {
         }
       }
 
-//       stage('Set Kubeconfig') {
-//          steps {
-//             script {
-//               withCredentials([file(credentialsId: 'ait-k8s_kubeconfig', variable: 'CONFIG')]) {
-//                 sh 'cat ${CONFIG} > ~/.kube/config'
-//                 sh 'export KUBECONFIG=$HOME/.kube/config:$HOME/.kube/ait3-k8s-config'
-//               }
-//             }
-//          }
-//      }
+      stage('Set Kubeconfig') {
+         steps {
+            script {
+              withCredentials([file(credentialsId: 'ait-k8s_kubeconfig', variable: 'CONFIG')]) {
+                sh 'cat ${CONFIG} > ~/.kube/config'
+                sh 'export KUBECONFIG=$HOME/.kube/config:$HOME/.kube/ait3-k8s-config'
+              }
+            }
+         }
+     }
 
      stage('Check New Namespace') {
         steps {
@@ -67,10 +67,10 @@ pipeline {
             script {
               withCredentials([file(credentialsId: 'ait-k8s_kubeconfig', variable: 'CONFIG'),
                                            usernamePassword(credentialsId: 'ait-k8s_docker-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-                sh 'docker login ait-cr.akarinti.tech --username=${USER} --password=${PASS}'
-                 sh 'mkdir -p $HOME/.kube'
-                 sh 'cat ${CONFIG} > ~/.kube/config'
-                 sh 'skaffold run -n ${NAMESPACE}'
+                  sh 'docker login ait-cr.akarinti.tech --username=${USER} --password=${PASS}'
+                  sh 'mkdir -p $HOME/.kube'
+                  sh 'cat ${CONFIG} > ~/.kube/config'
+                  sh 'skaffold run -n ${NAMESPACE}'
               }
             }
          }

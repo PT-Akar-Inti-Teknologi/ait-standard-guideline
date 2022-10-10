@@ -62,6 +62,17 @@ pipeline {
         }
      }
 
+     stage('Check Update Secrets') {
+        steps {
+           script {
+             result = sh (script: "git log -1 | grep -E 'update-secret'", returnStatus: true)
+             if (result == 0) {
+               sh 'kubectl apply -f k8s/secret.yml -n ${NAMESPACE}'
+             }
+           }
+        }
+    }
+
       stage('Build Image - Push - Deploy') {
          steps {
             script {

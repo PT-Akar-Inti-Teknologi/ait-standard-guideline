@@ -93,7 +93,7 @@ pipeline {
                  sh 'kubectl apply -f k8s/depl.yaml -n ${NAMESPACE}'
                  sh 'kubectl apply -f k8s/svc.yaml -n ${NAMESPACE}'
                  sh 'kubectl apply -f k8s/ingress-api.yaml -n ${NAMESPACE}'
-                 sh 'kubectl rollout status -f k8s/depl.yaml -n ${NAMESPACE}'
+//                  sh 'kubectl rollout status -f k8s/depl.yaml -n ${NAMESPACE}'
                  sh 'kubectl get all,ing  -n ${NAMESPACE}'
               }
           }

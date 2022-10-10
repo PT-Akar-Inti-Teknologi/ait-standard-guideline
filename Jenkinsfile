@@ -71,7 +71,7 @@ pipeline {
              }
            }
         }
-    }
+     }
 
       stage('Build Image - Push - Deploy') {
          steps {

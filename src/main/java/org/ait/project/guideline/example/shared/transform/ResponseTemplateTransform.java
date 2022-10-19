@@ -9,12 +9,13 @@ import org.ait.project.guideline.example.shared.dto.template.ResponseDetail;
 import org.ait.project.guideline.example.shared.dto.template.ResponseList;
 import org.ait.project.guideline.example.shared.dto.template.ResponseSchema;
 import org.ait.project.guideline.example.shared.dto.template.ResponseTemplate;
+import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.springframework.data.domain.Page;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", builder = @Builder(disableBuilder = true))
 public interface ResponseTemplateTransform {
 
   @Mapping(target = "responseOutput", source = "body", qualifiedByName = "createDetail")

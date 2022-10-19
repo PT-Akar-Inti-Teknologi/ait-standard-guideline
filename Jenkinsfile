@@ -1,6 +1,10 @@
 pipeline {
    agent any
 
+   environment {
+      NAMESPACE = "ait-standard"
+   }
+
    stages {
      stage('Check Commit') {
        steps {
@@ -38,6 +42,62 @@ pipeline {
           }
         }
       }
+
+      stage('Set Kubeconfig') {
+         steps {
+            script {
+              withCredentials([file(credentialsId: 'ait-k8s_kubeconfig', variable: 'CONFIG')]) {
+                sh 'cat ${CONFIG} > ~/.kube/config'
+                sh 'export KUBECONFIG=$HOME/.kube/config:$HOME/.kube/ait3-k8s-config'
+              }
+            }
+         }
+     }
+
+     stage('Check New Namespace') {
+        steps {
+            script {
+              sh 'kubectl create namespace ${NAMESPACE} --dry-run=client -o yaml | kubectl apply -f -'
+            }
+        }
+     }
+
+     stage('Check Update Secrets') {
+        steps {
+           script {
+             result = sh (script: "git log -1 | grep -E 'update-secret'", returnStatus: true)
+             if (result == 0) {
+               sh 'kubectl apply -f k8s/secret.yml -n ${NAMESPACE}'
+             }
+           }
+        }
+     }
+
+      stage('Build Image - Push - Deploy') {
+         steps {
+            script {
+              withCredentials([file(credentialsId: 'ait-k8s_kubeconfig', variable: 'CONFIG'),
+                                           usernamePassword(credentialsId: 'ait-k8s_docker-creds', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                  sh 'docker login ait-cr.akarinti.tech --username=${USER} --password=${PASS}'
+                  sh 'mkdir -p $HOME/.kube'
+                  sh 'cat ${CONFIG} > ~/.kube/config'
+                  sh 'skaffold run -n ${NAMESPACE}'
+              }
+            }
+         }
+      }
+
+      stage('Apply k8s') {
+          steps {
+              script {
+                 sh 'kubectl apply -f k8s/depl.yaml -n ${NAMESPACE}'
+                 sh 'kubectl apply -f k8s/svc.yaml -n ${NAMESPACE}'
+                 sh 'kubectl apply -f k8s/ingress-api.yaml -n ${NAMESPACE}'
+//                  sh 'kubectl rollout status -f k8s/depl.yaml -n ${NAMESPACE}'
+                 sh 'kubectl get all,ing  -n ${NAMESPACE}'
+              }
+          }
+       }
    }
 
    post {

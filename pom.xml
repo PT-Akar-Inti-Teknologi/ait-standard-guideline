@@ -173,6 +173,7 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- JaCoCo Code Coverage Report -->
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>

@@ -1,4 +1,4 @@
-package org.ait.project.guideline.example.config.exception;
+package org.ait.project.guideline.example.configuration.exception;
 
 import lombok.Getter;
 import org.ait.project.guideline.example.shared.constant.enums.ResponseEnum;

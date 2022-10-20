@@ -1,4 +1,4 @@
-package org.ait.project.guideline.example.config.openfeign;
+package org.ait.project.guideline.example.configuration.openfeign;
 
 import feign.RequestInterceptor;
 import org.springframework.context.annotation.Bean;

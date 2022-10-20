@@ -43,7 +43,7 @@ public class JsonPlaceHolderPostController implements JsonPlaceHolderPostService
   }
 
   @Override
-  @PostMapping
+  @PostMapping("/post")
   public ResponseEntity<ResponseTemplate<ResponseDetail<JsonPlaceHolderPostResponse>>> addPost(
       @Valid
       @RequestBody

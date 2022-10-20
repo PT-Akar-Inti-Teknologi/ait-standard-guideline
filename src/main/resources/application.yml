@@ -11,7 +11,7 @@ spring:
     active: dev
   #default value flyway set to false
   flyway:
-    enabled: false
+    enabled: true
   jackson:
     time-zone: Asia/Jakarta
 

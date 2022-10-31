@@ -18,6 +18,19 @@ class ApplicationTests {
 	@Autowired
 	private MockMvc mockMvc;
 
+	/*
+	* Standard Name:
+	* lower case semua
+	* diakhiri dengan success/failed
+	*
+	* untuk failed, tambahkan prefik (_when) untuk menjelaskan kondisi
+	* sekenarionya contoh: failed_when_phone_number_not_number
+	*
+	* example:
+	* api_login_success
+	* api_login_failed_when_phone_number_not_number
+	* */
+
 	@Test
 	void template_post() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.post("/post")

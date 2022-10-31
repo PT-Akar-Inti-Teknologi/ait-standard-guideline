@@ -6,8 +6,6 @@ restclient:
 
 spring:
   datasource:
-    url: jdbc:h2:~/testdb
-    username: sa
-    password:
+    url: jdbc:h2:mem:testdb
   flyway:
     enabled: true

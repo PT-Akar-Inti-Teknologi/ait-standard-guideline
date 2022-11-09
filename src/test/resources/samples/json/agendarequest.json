@@ -1,0 +1,22 @@
+{
+  "time" : "2024-06-19 12:15:26+0700",
+  "title" : "User Interview - Kandidat Rekrut",
+  "description" : "Interview dengan sdr. Kandidat Rekrut",
+  "invitees" : [ {
+    "email" : "andika.akbar@akarinti.tech",
+    "name" : "Muhammad Andika Akbar Ishaq",
+    "phone_no" : null
+  }, {
+    "email" : "arseno.harahap@akarinti.tech",
+    "name" : "Arseno Harahap",
+    "phone_no" : "081399760003"
+  }, {
+    "email" : "andrew@akarinti.tech",
+    "name" : "Andrew Ongi",
+    "phone_no" : null
+  }, {
+    "email" : "kandidat@gmail.com",
+    "name" : "Kandidat Rekrut",
+    "phone_no" : null
+  } ]
+}

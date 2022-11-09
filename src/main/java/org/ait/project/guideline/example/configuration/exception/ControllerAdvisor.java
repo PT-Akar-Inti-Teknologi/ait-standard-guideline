@@ -1,4 +1,4 @@
-package org.ait.project.guideline.example.config.exception;
+package org.ait.project.guideline.example.configuration.exception;
 
 import java.util.ArrayList;
 import java.util.Arrays;

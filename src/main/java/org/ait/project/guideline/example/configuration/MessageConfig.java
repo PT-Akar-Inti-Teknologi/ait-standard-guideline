@@ -1,4 +1,4 @@
-package org.ait.project.guideline.example.config;
+package org.ait.project.guideline.example.configuration;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;

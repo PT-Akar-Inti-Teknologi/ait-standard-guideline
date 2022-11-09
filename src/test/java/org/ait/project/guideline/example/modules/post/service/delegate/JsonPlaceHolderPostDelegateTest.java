@@ -1,8 +1,8 @@
 package org.ait.project.guideline.example.modules.post.service.delegate;
 
-import static org.hamcrest.CoreMatchers.any;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -11,7 +11,6 @@ import java.util.stream.Stream;
 import org.ait.project.guideline.example.modules.post.model.entity.JsonPlaceHolderPost;
 import org.ait.project.guideline.example.modules.post.model.repository.JsonPlaceHolderPostRepository;
 import org.ait.project.guideline.example.modules.post.service.delegate.impl.JsonPlaceHolderPostDelegateImpl;
-
 import org.jeasy.random.EasyRandom;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,10 +35,13 @@ public class JsonPlaceHolderPostDelegateTest {
 	@Test
 	public void testGetAllPost() {
 		Long numberOfObjects = Math.abs(easyRandom.nextLong(1, Integer.MAX_VALUE/1024));
-		List<JsonPlaceHolderPost> expectedList = easyRandom.objects(JsonPlaceHolderPost.class, numberOfObjects.intValue()).collect(Collectors.toList()); 
+		List<JsonPlaceHolderPost> expectedList = easyRandom.objects(JsonPlaceHolderPost.class, 
+				                                                    numberOfObjects.intValue())
+				                                            .collect(Collectors.toList()); 
 		when(jsonPlaceHolderPostRepository.findAll()).thenReturn(expectedList);
 		
 		List<JsonPlaceHolderPost> actualList = jsonPlaceHolderPostDelegate.getAllPost();
+		
 		assertEquals(expectedList.size(), actualList.size());
 		for (int i = 0; i < expectedList.size(); i++) {
 			JsonPlaceHolderPost expected = expectedList.get(i);

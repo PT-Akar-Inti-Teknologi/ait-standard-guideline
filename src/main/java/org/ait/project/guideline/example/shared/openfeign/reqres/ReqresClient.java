@@ -1,6 +1,6 @@
 package org.ait.project.guideline.example.shared.openfeign.reqres;
 
-import org.ait.project.guideline.example.config.openfeign.OpenFeignReqresConfig;
+import org.ait.project.guideline.example.configuration.openfeign.OpenFeignReqresConfig;
 import org.ait.project.guideline.example.shared.openfeign.reqres.request.ReqresCreateUserRequest;
 import org.ait.project.guideline.example.shared.openfeign.reqres.response.ReqresCreateUserResponse;
 import org.ait.project.guideline.example.shared.openfeign.reqres.response.ReqresListUserResponse;

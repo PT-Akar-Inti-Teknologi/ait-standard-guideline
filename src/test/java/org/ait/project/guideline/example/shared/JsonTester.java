@@ -14,11 +14,13 @@ import org.junit.jupiter.api.BeforeEach;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.datatype.jsr310.JSR310Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import lombok.Getter;
 import lombok.Setter;
 
-public abstract class JsonTester<T> {
+public abstract class JsonTester<T> implements JsonTestInterface {
 
 	public enum JsonTestType {
 		GENERATED,
@@ -38,7 +40,7 @@ public abstract class JsonTester<T> {
 	@Setter
 	private T objectToTest;
 	
-	protected ObjectMapper om = new ObjectMapper();
+	protected ObjectMapper om = buildObjectMapper();
 	
 	private Boolean generateSampleFile;
 	
@@ -52,15 +54,23 @@ public abstract class JsonTester<T> {
 	protected void writeSampleFile() throws IOException  {
 		generateSampleFile = Boolean.TRUE;
 		ObjectWriter prettyWriter = om.writerWithDefaultPrettyPrinter();
-		EasyRandom er = new EasyRandom();
+		EasyRandomParameters erp = new EasyRandomParameters();
+		erp.collectionSizeRange(1, 4);
+		EasyRandom er = new EasyRandom(erp);
 		T created = er.nextObject(typeToTest);
 		objectToTest = created;
-		byte[] forFile = prettyWriter.writeValueAsBytes(created);
+		byte[] forFile = prettyWriter.writeValueAsBytes(objectToTest);
 		fos = new FileOutputStream(getGeneratedFilePath(), false);
 		fos.write(forFile);
 		fos.close();
 	}
 	
+	private ObjectMapper buildObjectMapper() {
+		ObjectMapper objectMapper =  new ObjectMapper();
+		objectMapper.registerModules(new JavaTimeModule());
+		return objectMapper;
+	}
+
 	private String getGeneratedFilePath() throws IOException {
 		String folderPath = "target/generated-test-sources/samples/json/";
 		String generatedFilePath = folderPath + typeToTest.getSimpleName().toLowerCase() +".json";
@@ -79,7 +89,6 @@ public abstract class JsonTester<T> {
 			generatedExpected = new FileInputStream(getGeneratedFilePath());
 			return generatedExpected;
 		} else {
-			
 			return givenExpected;
 		}
 	}

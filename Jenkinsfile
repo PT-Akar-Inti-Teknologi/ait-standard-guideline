@@ -6,8 +6,7 @@ pipeline {
        steps {
         script {
           result = sh (script: "git log -1 | grep -E '(feat|build|chore|fix|docs|refactor|perf|style|test)(\\(.+\\))*:'", returnStatus: true)
-           log = sh (script: "git log -1", returnStatus: true)
-           echo "${log}"
+          sh (script: "git log -1", returnStatus: true)
           if (result != 0) {
             throw new Exception("failed, please follow commit message standard!")
           }
